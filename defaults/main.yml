@@ -4,4 +4,3 @@ ss_server_port: 23333
 ss_local_port: 1080
 ss_timeout: 300
 ss_method: 'chacha20'
-ss_fast_open: false

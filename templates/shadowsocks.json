@@ -5,5 +5,5 @@
   "password": "{{ ss_password }}",
   "timeout": {{ ss_timeout }},
   "method": "{{ ss_method }}",
-  "fast_open": {{ ss_fast_open }}
+  "fast_open": false
 }
