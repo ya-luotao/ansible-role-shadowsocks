@@ -1,2 +1,13 @@
 ---
-# vars file for shadowsocks
+ss_dependencies:
+  - git
+  - gettext
+  - build-essential
+  - autoconf
+  - libtool
+  - libpcre3-dev
+  - asciidoc
+  - xmlto
+  - libev-dev
+  - libc-ares-dev
+  - automake
