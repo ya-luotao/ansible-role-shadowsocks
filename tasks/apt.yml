@@ -1,0 +1,4 @@
+---
+- name: Install Shadowsocks-libev dependencies
+  apt: name={{item}} state=installed
+  with_items: "{{ ss_dependencies }}"

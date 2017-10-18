@@ -1,0 +1,43 @@
+---
+- name: git clone shadowsoks-libev
+  git:
+    repo: 'https://github.com/shadowsocks/shadowsocks-libev'
+    dest: /root/repo_ss
+    recursive: yes
+    update: yes
+
+- name: build shadowsocks-libev
+  block:
+    - command: ./autogen.sh
+      args:
+        chdir: /root/repo_ss
+    - command: ./configure
+      args:
+        chdir: /root/repo_ss
+    - command: make
+      args:
+        chdir: /root/repo_ss
+    - command: make install
+      args:
+        chdir: /root/repo_ss
+
+- name: start ss-server
+  block:
+    - template:
+        src: shadowsocks-libev.service
+        dest: /usr/lib/systemd/system/
+        mode: 755
+
+    - name: ensures shadowsocks-libev dir exists
+      file: path=/etc/shadowsocks-libev state=directory
+
+    - template:
+        src: shadowsocks.json
+        dest: /etc/shadowsocks-libev/config.json
+
+    - name: Start shadowsocks-libev
+      systemd:
+        name: shadowsocks-libev
+        state: started
+        enabled: yes
+        daemon_reload: yes

@@ -1,0 +1,25 @@
+---
+- name: download libsodium
+  unarchive:
+    src: https://download.libsodium.org/libsodium/releases/libsodium-1.0.13.tar.gz
+    dest: /root
+    remote_src: yes
+  register: libsodium_dir
+
+- name: install libsodium
+  block:
+    - name: configure libsodium
+      command: ./configure --prefix=/usr
+      args:
+        chdir: /root/libsodium-1.0.13
+      register: libsoconfig
+    - name: make libsodium
+      command: make
+      args:
+        chdir: /root/libsodium-1.0.13
+    - name: make install
+      command: make install
+      args:
+        chdir: /root/libsodium-1.0.13
+    - name: ldconfig
+      command: ldconfig

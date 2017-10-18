@@ -1,0 +1,21 @@
+---
+- name: download mbedtls
+  unarchive:
+    src: https://tls.mbed.org/download/mbedtls-2.6.0-gpl.tgz
+    dest: /root
+    remote_src: yes
+  register: mbedtls_dir
+
+- name: install mbedtls
+  block:
+    - name: make mbedtls
+      command: make SHARED=1 CFLAHS=-fPIC
+      args:
+        chdir: /root/mbedtls-2.6.0
+    - name: make install
+      command: make DESTDIR=/usr install
+      args:
+        chdir: /root/mbedtls-2.6.0
+    - name: ldconfig
+      command: ldconfig
+
