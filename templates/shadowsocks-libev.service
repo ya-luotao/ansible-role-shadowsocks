@@ -1,0 +1,12 @@
+[Unit]
+Description=shadowsocks-libev - lightweight secured socks5 proxy
+Documentation=man:shadowsocks-libev(8)
+After=network.target
+
+[Service]
+Type=simple
+LimitNOFILE=32768
+ExecStart=/usr/local/bin/ss-server -u -c /etc/shadowsocks-libev/config.json
+
+[Install]
+WantedBy=multi-user.target

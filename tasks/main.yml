@@ -1,2 +1,104 @@
 ---
-# tasks file for shadowsocks
+- name: install pkg
+  apt: name={{item}} state=installed
+  with_items:
+    - git
+    - gettext
+    - build-essential
+    - autoconf
+    - libtool
+    - libpcre3-dev
+    - asciidoc
+    - xmlto
+    - libev-dev
+    - libc-ares-dev
+    - automake
+
+- name: git clone shadowsoks-libev
+  block:
+    - git:
+        repo: 'https://github.com/shadowsocks/shadowsocks-libev'
+        dest: /root/repo_ss
+        recursive: yes
+        update: yes
+      register: ss_libev_repo
+
+- name: download libsodium
+  unarchive:
+    src: https://download.libsodium.org/libsodium/releases/libsodium-1.0.13.tar.gz
+    dest: /root
+    remote_src: yes
+  register: libsodium_dir
+
+- name: install libsodium
+  block:
+    - command: ./configure --prefix=/usr
+      args:
+        chdir: /root/libsodium-1.0.13
+      register: libsoconfig
+    - command: make
+      args:
+        chdir: /root/libsodium-1.0.13
+    - command: make install
+      args:
+        chdir: /root/libsodium-1.0.13
+    - command: ldconfig
+
+- name: download mbedtls
+  unarchive:
+    src: https://tls.mbed.org/download/mbedtls-2.6.0-gpl.tgz
+    dest: /root
+    remote_src: yes
+  register: mbedtls_dir
+
+
+- name: install mbedtls
+  block:
+    - command: make SHARED=1 CFLAHS=-fPIC
+      args:
+        chdir: /root/mbedtls-2.6.0
+    - command: make DESTDIR=/usr install
+      args:
+        chdir: /root/mbedtls-2.6.0
+    - command: ldconfig
+
+- name: build shadowsocks-libev
+  # when: ss_libev_repo.before != ss_libev_repo.after
+  block:
+    - command: ./autogen.sh
+      args:
+        chdir: /root/repo_ss
+    - command: ./configure
+      args:
+        chdir: /root/repo_ss
+    - command: make
+      args:
+        chdir: /root/repo_ss
+    - command: make install
+      args:
+        chdir: /root/repo_ss
+
+- name: start ss-server
+  block:
+    - template:
+        src: shadowsocks-libev.service
+        dest: /usr/lib/systemd/system/
+        mode: 755
+    - name: ensures shadowsocks-libev dir exists
+      file: path=/etc/shadowsocks-libev state=directory
+    - template:
+        src: shadowsocks.json
+        dest: /etc/shadowsocks-libev/config.json
+    # - name: look for the ss-server process
+    #   shell: ps aux | grep ss-server | wc -l
+    #   register: ss_server_count
+    - name: start
+      systemd:
+        name: shadowsocks-libev
+        state: started
+        enabled: yes
+        daemon_reload: yes
+    # - command: ss-server -c /etc/shadowsocks-libev/config.json -f fuck.pid
+    #   when: "ss_server_count.stdout == 1"
+
+
