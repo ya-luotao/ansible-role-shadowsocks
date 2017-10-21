@@ -1,7 +1,7 @@
 galaxy_info:
   author: luotaoruby
   description: aka wall2flower
-  company: your company (optional)
+  company: 
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -14,7 +14,7 @@ galaxy_info:
   # - GPLv3
   # - Apache
   # - CC-BY
-  license: license (GPLv2, CC-BY, etc)
+  license: BSD
 
   min_ansible_version: 1.2
 
@@ -33,9 +33,10 @@ galaxy_info:
   # platforms is a list of platforms, and each platform has a name and a list of versions.
   #
   platforms:
-    - name: GenericUNIX
+    - name: Ubuntu
       versions:
-        - all 
+        - 17.10
+        - 16.04
 
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes
