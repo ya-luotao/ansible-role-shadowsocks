@@ -1,6 +1,6 @@
 ---
 ss_password: '!passwoRd'
-ss_server_port: 23333
+ss_server_port: 8389
 ss_local_port: 1080
 ss_timeout: 300
 ss_method: 'chacha20'
