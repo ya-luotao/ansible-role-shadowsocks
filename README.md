@@ -10,7 +10,7 @@ Variables you can rewrite:
 
 ```
 ss_password: '!password'
-ss_server_port: 8389
+ss_server_port: 443
 ss_local_port: 1080
 ss_timeout: 300
 ss_method: 'chacha20'
