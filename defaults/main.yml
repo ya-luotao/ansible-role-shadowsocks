@@ -4,3 +4,13 @@ ss_server_port: 443
 ss_local_port: 1080
 ss_timeout: 300
 ss_method: 'aes-cfb-256'
+
+libsodium_ver: '1.0.13'
+mbedtls_ver: '2.6.0'
+ss_libev_ver: '3.1.0'
+
+workspace: /usr/local/src
+
+ss_install_path: '/usr'
+
+reinstall_ss: false

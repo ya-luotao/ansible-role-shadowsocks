@@ -1,25 +1,39 @@
 ---
+- name: get installed ss version
+  shell: "which ss-server >/dev/null 2>&1 && (ss-server --help | grep '^shadowsocks-libev' | sed -e 's!^shadowsocks-libev \\([0-9\\.]*\\).*!\\1!')"
+  changed_when: false
+  failed_when: false
+  register: ss_libev_installed_ver
+
+- name: Reinstall if need
+  set_fact:
+    reinstall_ss: true
+  when: 'shadowsocks_libev_installed_version.stdout | regex_replace("^.*?([0-9\.]+)$", "\\1") | version_compare(shadowsocks_libev_version, operator="!=")'
+
 - name: git clone shadowsoks-libev
   git:
     repo: 'https://github.com/shadowsocks/shadowsocks-libev'
-    dest: /root/repo_ss
+    dest: "{{  workspace }}/shadowsocks-libev-{{ ss_libev_ver }}"
+    version: v{{ ss_libev_ver }}
     recursive: yes
     update: yes
+    when: shadowsocks_libev_installed_version|failed or reinstall_ss
 
 - name: build shadowsocks-libev
   block:
     - command: ./autogen.sh
       args:
-        chdir: /root/repo_ss
+        chdir: "{{  workspace }}/shadowsocks-libev-{{ ss_libev_ver }}"
     - command: ./configure
       args:
-        chdir: /root/repo_ss
+        chdir: "{{  workspace }}/shadowsocks-libev-{{ ss_libev_ver }}"
     - command: make
       args:
-        chdir: /root/repo_ss
+        chdir: "{{  workspace }}/shadowsocks-libev-{{ ss_libev_ver }}"
     - command: make install
       args:
         chdir: /root/repo_ss
+  when: shadowsocks_libev_installed_version|failed or reinstall_ss
 
 - name: start ss-server
   block:
