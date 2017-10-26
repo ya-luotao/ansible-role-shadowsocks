@@ -2,7 +2,7 @@
 - name: download libsodium
   unarchive:
     src: https://download.libsodium.org/libsodium/releases/libsodium-{{ libsodium_ver }}.tar.gz
-    dest: /root
+    dest: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
     remote_src: yes
   register: libsodium_dir
 
@@ -11,15 +11,15 @@
     - name: configure libsodium
       command: ./configure --prefix=/usr
       args:
-        chdir: /root/libsodium-{{ libsodium_ver }}
+        chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
       register: libsoconfig
     - name: make libsodium
       command: make
       args:
-        chdir: /root/libsodium-{{ libsodium_ver }}
+        chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
     - name: make install
       command: make install
       args:
-        chdir: /root/libsodium-{{ libsodium_ver }}
+        chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
     - name: ldconfig
       command: ldconfig

@@ -2,7 +2,7 @@
 - name: download mbedtls
   unarchive:
     src: https://tls.mbed.org/download/mbedtls-{{ mbedtls_ver }}-gpl.tgz
-    dest: /root
+    dest: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
     remote_src: yes
   register: mbedtls_dir
 
@@ -11,11 +11,11 @@
     - name: make mbedtls
       command: make SHARED=1 CFLAHS=-fPIC
       args:
-        chdir: /root/mbedtls-{{ mbedtls_ver }}
+        chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
     - name: make install
       command: make DESTDIR=/usr install
       args:
-        chdir: /root/mbedtls-{{ mbedtls_ver }}
+        chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
     - name: ldconfig
       command: ldconfig
 

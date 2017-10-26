@@ -8,7 +8,7 @@
 - name: Reinstall if need
   set_fact:
     reinstall_ss: true
-  when: 'shadowsocks_libev_installed_version.stdout | regex_replace("^.*?([0-9\.]+)$", "\\1") | version_compare(shadowsocks_libev_version, operator="!=")'
+  when: 'ss_libev_installed_ver.stdout | regex_replace("^.*?([0-9\.]+)$", "\\1") | version_compare(shadowsocks_libev_version, operator="!=")'
 
 - name: git clone shadowsoks-libev
   git:
@@ -17,7 +17,7 @@
     version: v{{ ss_libev_ver }}
     recursive: yes
     update: yes
-    when: shadowsocks_libev_installed_version|failed or reinstall_ss
+    when: ss_libev_installed_ver|failed or reinstall_ss
 
 - name: build shadowsocks-libev
   block:
@@ -33,7 +33,7 @@
     - command: make install
       args:
         chdir: /root/repo_ss
-  when: shadowsocks_libev_installed_version|failed or reinstall_ss
+  when: ss_libev_installed_ver|failed or reinstall_ss
 
 - name: start ss-server
   block:
