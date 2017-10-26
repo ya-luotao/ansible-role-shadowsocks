@@ -1,9 +1,9 @@
 ---
-- include: tasks/apt.yml
+- import_task: tasks/apt.yml
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|int >= 16
-- include: tasks/libsodium.yml
+- import_task: tasks/libsodium.yml
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|int >= 16
-- include: tasks/mbedtls.yml
+- import_task: tasks/mbedtls.yml
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|int >= 16
-- include: tasks/shadowsocks-libev.yml
+- import_task: tasks/shadowsocks-libev.yml
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|int >= 16
