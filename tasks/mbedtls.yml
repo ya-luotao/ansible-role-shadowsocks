@@ -1,6 +1,6 @@
 ---
 - name: Check if mbedtls path exists
-  stat: path="{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
+  stat: path={{ workspace }}/mbedtls-{{ mbedtls_ver }}
   register: check_mbedtls_path
 
 - name: Download mbedtls
@@ -9,6 +9,11 @@
     dest: "{{ workspace }}"
     remote_src: yes
   register: mbedtls_dir
+  when: check_mbedtls_path.stat.exists == false
+
+- name: Check if mbedtls installed
+  stat: path={{ workspace }}/mbedtls-{{ mbedtls_ver }}/installed
+  register: check_mbedtls_path
 
 - name: Install mbedtls
   block:
@@ -22,4 +27,5 @@
         chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
     - name: Ldconfig
       command: ldconfig
+  when: check_mbedtls_path.stat.exists == false
 
