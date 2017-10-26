@@ -17,7 +17,7 @@
     version: v{{ ss_libev_ver }}
     recursive: yes
     update: yes
-    when: ss_libev_installed_ver|failed or reinstall_ss
+  when: ss_libev_installed_ver|failed or reinstall_ss
 
 - name: build shadowsocks-libev
   block:
