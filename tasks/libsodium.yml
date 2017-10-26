@@ -2,7 +2,7 @@
 - name: download libsodium
   unarchive:
     src: https://download.libsodium.org/libsodium/releases/libsodium-{{ libsodium_ver }}.tar.gz
-    dest: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
+    dest: "{{ workspace }}"
     remote_src: yes
   register: libsodium_dir
 

@@ -2,7 +2,7 @@
 - name: download mbedtls
   unarchive:
     src: https://tls.mbed.org/download/mbedtls-{{ mbedtls_ver }}-gpl.tgz
-    dest: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
+    dest: "{{ workspace }}"
     remote_src: yes
   register: mbedtls_dir
 
