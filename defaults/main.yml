@@ -3,4 +3,4 @@ ss_password: '!passwoRd'
 ss_server_port: 443
 ss_local_port: 1080
 ss_timeout: 300
-ss_method: 'chacha20'
+ss_method: 'aes-cfb-256'
