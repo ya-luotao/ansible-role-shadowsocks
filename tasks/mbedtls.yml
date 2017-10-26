@@ -27,5 +27,9 @@
         chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
     - name: Ldconfig
       command: ldconfig
+    - name: Touch
+      command: touch installed
+      args:
+        chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
   when: check_mbedtls_path.stat.exists == false
 
