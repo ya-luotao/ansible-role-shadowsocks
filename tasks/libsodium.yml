@@ -1,25 +1,39 @@
 ---
-- name: download libsodium
+- name: Check if libsodium path exists
+  stat: path="{{ workspace }}/libsodium-{{ libsodium_ver}}"
+  register: check_libsodim_path
+
+- name: Download libsodium
   unarchive:
     src: https://download.libsodium.org/libsodium/releases/libsodium-{{ libsodium_ver }}.tar.gz
     dest: "{{ workspace }}"
     remote_src: yes
   register: libsodium_dir
+  when: check_libsodim_path.stat.exists == false
 
-- name: install libsodium
+- name: Check if libsodium installed
+  stat: path="{{ workspace }}/libsodium-{{ libsodium_ver }}/installed"
+  register: check_libsodim_installed_path
+
+- name: Install libsodium
   block:
-    - name: configure libsodium
+    - name: Configure libsodium
       command: ./configure --prefix=/usr
       args:
         chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
       register: libsoconfig
-    - name: make libsodium
+    - name: Make libsodium
       command: make
       args:
         chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
-    - name: make install
+    - name: Make install
       command: make install
       args:
         chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
-    - name: ldconfig
+    - name: Ldconfig
       command: ldconfig
+    - name: Touch
+      command: touch installed
+      args:
+        chdir: "{{ workspace }}/libsodium-{{ libsodium_ver }}"
+  when: check_libsodim_installed_path.stat.exists == false

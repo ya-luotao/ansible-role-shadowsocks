@@ -1,21 +1,25 @@
 ---
-- name: download mbedtls
+- name: Check if mbedtls path exists
+  stat: path="{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
+  register: check_mbedtls_path
+
+- name: Download mbedtls
   unarchive:
     src: https://tls.mbed.org/download/mbedtls-{{ mbedtls_ver }}-gpl.tgz
     dest: "{{ workspace }}"
     remote_src: yes
   register: mbedtls_dir
 
-- name: install mbedtls
+- name: Install mbedtls
   block:
-    - name: make mbedtls
+    - name: Make mbedtls
       command: make SHARED=1 CFLAHS=-fPIC
       args:
         chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
-    - name: make install
+    - name: Make install
       command: make DESTDIR=/usr install
       args:
         chdir: "{{ workspace }}/mbedtls-{{ mbedtls_ver }}"
-    - name: ldconfig
+    - name: Ldconfig
       command: ldconfig
 
