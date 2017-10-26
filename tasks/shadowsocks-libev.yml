@@ -32,7 +32,7 @@
         chdir: "{{  workspace }}/shadowsocks-libev-{{ ss_libev_ver }}"
     - command: make install
       args:
-        chdir: /root/repo_ss
+        chdir: "{{  workspace }}/shadowsocks-libev-{{ ss_libev_ver }}"
   when: ss_libev_installed_ver|failed or reinstall_ss
 
 - name: start ss-server
