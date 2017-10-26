@@ -8,7 +8,7 @@
 - name: Reinstall if need
   set_fact:
     reinstall_ss: true
-  when: 'ss_libev_installed_ver.stdout | regex_replace("^.*?([0-9\.]+)$", "\\1") | version_compare(shadowsocks_libev_version, operator="!=")'
+  when: 'ss_libev_installed_ver.stdout | regex_replace("^.*?([0-9\.]+)$", "\\1") | version_compare(ss_libev_ver, operator="!=")'
 
 - name: git clone shadowsoks-libev
   git:
