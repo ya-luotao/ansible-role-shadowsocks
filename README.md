@@ -20,17 +20,17 @@ ss_method: 'aes-cfb-256'
 Example Playbook
 ----------------
 
-Install `wall2flower.shadowsocks` role first:
+Install `waste-time.shadowsocks` role first:
 
 ```
-$ ansible-galaxy install wall2flower.shadowsocks
+$ ansible-galaxy install waste-time.shadowsocks
 ```
 
 Rewrite `ss_password`, `ss_method` and `ss_server_port`:
 
     - hosts: servers
       roles:
-         - { role: 'wall2flower.shadowsocks', ss_password: 'password', ss_method: 'aes-256-cfb', ss_server_port: 8838 }
+         - { role: 'waste-time.shadowsocks', ss_password: 'password', ss_method: 'aes-256-cfb', ss_server_port: 8838 }
 
 have fun.
 
