@@ -52,6 +52,5 @@
     - name: Start shadowsocks-libev
       systemd:
         name: shadowsocks-libev
-        state: started
+        state: restarted
         enabled: yes
-        daemon_reload: yes
