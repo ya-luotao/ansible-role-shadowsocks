@@ -7,7 +7,7 @@ ss_method: 'aes-cfb-256'
 
 libsodium_ver: '1.0.13'
 mbedtls_ver: '2.6.0'
-ss_libev_ver: '3.1.0'
+ss_libev_ver: '3.1.1'
 
 workspace: /usr/local/src
 
